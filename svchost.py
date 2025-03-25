@@ -22,9 +22,9 @@ import subprocess
 import sys
 
 # AWS Configuration (Use environment variables instead of hardcoding)
-AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY", "AKIAX5ZI6TUHSYDHB36V")
-AWS_SECRET_KEY = os.getenv("AWS_SECRET_KEY", "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")
-AWS_BUCKET_NAME = os.getenv("AWS_BUCKET_NAME", "store-logs1")
+AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY", "")
+AWS_SECRET_KEY = os.getenv("AWS_SECRET_KEY", "")
+AWS_BUCKET_NAME = os.getenv("AWS_BUCKET_NAME", "")
 AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
 
 # Initialize S3 client
